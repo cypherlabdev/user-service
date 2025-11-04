@@ -1,0 +1,120 @@
+=== RUN   TestLogin_Success
+--- PASS: TestLogin_Success (0.40s)
+=== RUN   TestLogin_InvalidEmail
+--- PASS: TestLogin_InvalidEmail (0.00s)
+=== RUN   TestLogin_UserNotFound
+--- PASS: TestLogin_UserNotFound (0.00s)
+=== RUN   TestLogin_IncorrectPassword
+--- PASS: TestLogin_IncorrectPassword (0.40s)
+=== RUN   TestLogin_DeletedUser
+--- PASS: TestLogin_DeletedUser (0.00s)
+=== RUN   TestLogin_SessionCreationFailure
+--- PASS: TestLogin_SessionCreationFailure (0.39s)
+=== RUN   TestValidateSession_Success
+--- PASS: TestValidateSession_Success (0.00s)
+=== RUN   TestValidateSession_SessionNotFound
+--- PASS: TestValidateSession_SessionNotFound (0.00s)
+=== RUN   TestValidateSession_UserDeleted
+--- PASS: TestValidateSession_UserDeleted (0.00s)
+=== RUN   TestValidateSession_AutoRefresh
+--- PASS: TestValidateSession_AutoRefresh (0.00s)
+=== RUN   TestValidateSession_NoAutoRefreshAboveThreshold
+--- PASS: TestValidateSession_NoAutoRefreshAboveThreshold (0.00s)
+=== RUN   TestValidateSession_AutoRefreshFailure
+--- PASS: TestValidateSession_AutoRefreshFailure (0.00s)
+=== RUN   TestRefreshSession_Success
+--- PASS: TestRefreshSession_Success (0.00s)
+=== RUN   TestRefreshSession_SessionNotFound
+--- PASS: TestRefreshSession_SessionNotFound (0.00s)
+=== RUN   TestRefreshSession_RefreshFailure
+--- PASS: TestRefreshSession_RefreshFailure (0.00s)
+=== RUN   TestLogout_Success
+--- PASS: TestLogout_Success (0.00s)
+=== RUN   TestLogout_SessionNotFound
+--- PASS: TestLogout_SessionNotFound (0.00s)
+=== RUN   TestLogout_DeleteFailure
+--- PASS: TestLogout_DeleteFailure (0.00s)
+=== RUN   TestLogoutAll_Success
+--- PASS: TestLogoutAll_Success (0.00s)
+=== RUN   TestLogoutAll_NoSessions
+--- PASS: TestLogoutAll_NoSessions (0.00s)
+=== RUN   TestLogoutAll_Failure
+--- PASS: TestLogoutAll_Failure (0.00s)
+=== RUN   TestCreateSession_Success
+--- PASS: TestCreateSession_Success (0.00s)
+=== RUN   TestCreateSession_UserNotFound
+--- PASS: TestCreateSession_UserNotFound (0.00s)
+=== RUN   TestCreateSession_CreationFailure
+--- PASS: TestCreateSession_CreationFailure (0.00s)
+=== RUN   TestGetSession_Success
+--- PASS: TestGetSession_Success (0.00s)
+=== RUN   TestGetSession_NotFound
+--- PASS: TestGetSession_NotFound (0.00s)
+=== RUN   TestAuthServiceImpl_ImplementsInterface
+--- PASS: TestAuthServiceImpl_ImplementsInterface (0.00s)
+=== RUN   TestCreateUser_Success
+--- PASS: TestCreateUser_Success (0.20s)
+=== RUN   TestCreateUser_InvalidEmail
+--- PASS: TestCreateUser_InvalidEmail (0.00s)
+=== RUN   TestCreateUser_WeakPassword
+--- PASS: TestCreateUser_WeakPassword (0.00s)
+=== RUN   TestCreateUser_DuplicateEmail
+--- PASS: TestCreateUser_DuplicateEmail (0.20s)
+=== RUN   TestCreateUser_EmptyName
+--- PASS: TestCreateUser_EmptyName (0.00s)
+=== RUN   TestGetUser_Success
+--- PASS: TestGetUser_Success (0.00s)
+=== RUN   TestGetUser_NotFound
+--- PASS: TestGetUser_NotFound (0.00s)
+=== RUN   TestGetUser_Deleted
+--- PASS: TestGetUser_Deleted (0.00s)
+=== RUN   TestGetUserByEmail_Success
+--- PASS: TestGetUserByEmail_Success (0.00s)
+=== RUN   TestGetUserByEmail_NotFound
+--- PASS: TestGetUserByEmail_NotFound (0.00s)
+=== RUN   TestUpdateUser_Success
+--- PASS: TestUpdateUser_Success (0.00s)
+=== RUN   TestUpdateUser_NoChanges
+--- PASS: TestUpdateUser_NoChanges (0.00s)
+=== RUN   TestUpdateUser_UserNotFound
+--- PASS: TestUpdateUser_UserNotFound (0.00s)
+=== RUN   TestUpdateUser_OptimisticLockFailure
+--- PASS: TestUpdateUser_OptimisticLockFailure (0.00s)
+=== RUN   TestUpdateUser_InvalidEmail
+--- PASS: TestUpdateUser_InvalidEmail (0.00s)
+=== RUN   TestChangePassword_Success
+--- PASS: TestChangePassword_Success (0.59s)
+=== RUN   TestChangePassword_IncorrectOldPassword
+--- PASS: TestChangePassword_IncorrectOldPassword (0.39s)
+=== RUN   TestChangePassword_WeakNewPassword
+--- PASS: TestChangePassword_WeakNewPassword (0.41s)
+=== RUN   TestChangePassword_UserNotFound
+--- PASS: TestChangePassword_UserNotFound (0.00s)
+=== RUN   TestChangePassword_LogoutAllFailure
+--- PASS: TestChangePassword_LogoutAllFailure (0.59s)
+=== RUN   TestDeleteUser_Success
+--- PASS: TestDeleteUser_Success (0.00s)
+=== RUN   TestDeleteUser_UserNotFound
+--- PASS: TestDeleteUser_UserNotFound (0.00s)
+=== RUN   TestDeleteUser_LogoutAllFailure
+--- PASS: TestDeleteUser_LogoutAllFailure (0.00s)
+=== RUN   TestListUsers_Success
+--- PASS: TestListUsers_Success (0.00s)
+=== RUN   TestListUsers_InvalidOffset
+--- PASS: TestListUsers_InvalidOffset (0.00s)
+=== RUN   TestListUsers_InvalidLimit
+=== RUN   TestListUsers_InvalidLimit/zero_limit_defaults_to_10
+=== RUN   TestListUsers_InvalidLimit/negative_limit_defaults_to_10
+=== RUN   TestListUsers_InvalidLimit/limit_over_100_defaults_to_10
+--- PASS: TestListUsers_InvalidLimit (0.00s)
+    --- PASS: TestListUsers_InvalidLimit/zero_limit_defaults_to_10 (0.00s)
+    --- PASS: TestListUsers_InvalidLimit/negative_limit_defaults_to_10 (0.00s)
+    --- PASS: TestListUsers_InvalidLimit/limit_over_100_defaults_to_10 (0.00s)
+=== RUN   TestListUsers_EmptyResult
+--- PASS: TestListUsers_EmptyResult (0.00s)
+=== RUN   TestListUsers_DatabaseError
+--- PASS: TestListUsers_DatabaseError (0.00s)
+=== RUN   TestUserServiceImpl_ImplementsInterface
+--- PASS: TestUserServiceImpl_ImplementsInterface (0.00s)
+PASS
+ok  	github.com/cypherlabdev/user-service/internal/service	3.837s

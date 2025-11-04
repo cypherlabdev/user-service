@@ -1,0 +1,22 @@
+{
+  "mcpServers": {
+    "asana": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-asana"
+      ],
+      "env": {
+        "ASANA_PERSONAL_ACCESS_TOKEN": "${ASANA_TOKEN}"
+      }
+    },
+    "postgres": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-postgres",
+        "postgresql://localhost/user_service"
+      ]
+    }
+  }
+}

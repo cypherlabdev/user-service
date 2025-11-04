@@ -1,0 +1,39 @@
+server:
+  grpc_port: 9090
+  http_port: 8080
+  host: 0.0.0.0
+
+database:
+  host: localhost
+  port: 5432
+  user: postgres
+  password: postgres
+  dbname: user_service
+  sslmode: disable
+  max_conns: 25
+  min_conns: 5
+  max_conn_lifetime: 1h
+  max_conn_idle_time: 30m
+
+redis:
+  host: localhost
+  port: 6379
+  password: ""
+  db: 0
+
+kafka:
+  brokers:
+    - localhost:9092
+  enabled: true
+
+session:
+  ttl: 24h
+  refresh_threshold: 1h
+
+logging:
+  level: info
+  format: json
+
+metrics:
+  port: 9091
+  enabled: true
