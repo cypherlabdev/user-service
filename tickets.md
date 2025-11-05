@@ -69,10 +69,13 @@
 - [auth_service.go:233-234](internal/service/auth_service.go#L233-L234) - TODO: logout_all event
 - [main.go:56-61](cmd/server/main.go#L56-L61) - Kafka producer initialized but unused
 
-## Tickets to Create in Asana
+## Proposed New Tickets (Created in Asana)
 
-### 1. [NEW] Kafka Event Publishing for User Service (P0 - CRITICAL)
-**Proposed Priority**: P0 (Blocks saga pattern and event-driven architecture)
+### 2. Kafka Event Publishing for User Service
+**Task ID**: 1211847492649334
+**ENG**: ENG-250
+**URL**: https://app.asana.com/0/1211254851871080/1211847492649334
+**Priority**: P0
 **Type**: feature
 **Assignee**: sj@cypherlab.tech
 **Labels**: Backend, user-service, Infrastructure, Kafka
@@ -118,12 +121,15 @@ Code has 7 TODO comments for event publishing but Kafka producer is initialized 
 
 ---
 
-### 2. [NEW] Email Verification for User Registration (P1)
-**Proposed Priority**: P1 (Security and user validation)
+### 3. Email Verification for User Registration
+**Task ID**: 1211847426358057
+**ENG**: ENG-251
+**URL**: https://app.asana.com/0/1211254851871080/1211847426358057
+**Priority**: P1
 **Type**: feature
 **Assignee**: sj@cypherlab.tech
 **Labels**: Backend, user-service, Security
-**Depends On**: [1211394356066018] ENG-90, [NEW] Kafka Event Publishing, [1211394356066029] ENG-94 (notification-service)
+**Depends On**: [1211394356066018] ENG-90, [1211847492649334] ENG-250 (Kafka Event Publishing), [1211394356066029] ENG-94 (notification-service)
 
 **Rationale**:
 Users can currently register without email verification, allowing:
@@ -153,12 +159,15 @@ Users can currently register without email verification, allowing:
 
 ---
 
-### 3. [NEW] Two-Factor Authentication (2FA) Support (P1)
-**Proposed Priority**: P1 (Security enhancement for high-value accounts)
+### 4. Two-Factor Authentication (2FA) Support
+**Task ID**: 1211847364374973
+**ENG**: ENG-252
+**URL**: https://app.asana.com/0/1211254851871080/1211847364374973
+**Priority**: P1
 **Type**: feature
 **Assignee**: sj@cypherlab.tech
 **Labels**: Backend, user-service, Security
-**Depends On**: [1211394356066018] ENG-90, [NEW] Email Verification
+**Depends On**: [1211394356066018] ENG-90, [1211847426358057] ENG-251 (Email Verification)
 
 **Rationale**:
 Sports betting platform handles real money transactions. 2FA provides:
@@ -189,12 +198,15 @@ Sports betting platform handles real money transactions. 2FA provides:
 
 ---
 
-### 4. [NEW] Password Reset Flow (P1)
-**Proposed Priority**: P1 (Essential user experience feature)
+### 5. Password Reset Flow
+**Task ID**: 1211847521211798
+**ENG**: ENG-253
+**URL**: https://app.asana.com/0/1211254851871080/1211847521211798
+**Priority**: P1
 **Type**: feature
 **Assignee**: sj@cypherlab.tech
 **Labels**: Backend, user-service, Security
-**Depends On**: [1211394356066018] ENG-90, [NEW] Email Verification, [1211394356066029] ENG-94 (notification-service)
+**Depends On**: [1211394356066018] ENG-90, [1211847426358057] ENG-251 (Email Verification), [1211394356066029] ENG-94 (notification-service)
 
 **Rationale**:
 No password reset mechanism exists. Users who forget passwords have no recovery option except contacting support.
@@ -222,8 +234,11 @@ No password reset mechanism exists. Users who forget passwords have no recovery 
 
 ---
 
-### 5. [NEW] Rate Limiting for Authentication Endpoints (P1)
-**Proposed Priority**: P1 (Security - prevent brute force attacks)
+### 6. Rate Limiting for User Service APIs
+**Task ID**: 1211847362027812
+**ENG**: ENG-254
+**URL**: https://app.asana.com/0/1211254851871080/1211847362027812
+**Priority**: P1
 **Type**: feature
 **Assignee**: sj@cypherlab.tech
 **Labels**: Backend, user-service, Security
@@ -261,8 +276,11 @@ README.md mentions TODO for rate limiting (TAM-008). No rate limiting exists, al
 
 ---
 
-### 6. [NEW] Role-Based Access Control (RBAC) System (P2)
-**Proposed Priority**: P2 (Important for multi-tenant and admin features)
+### 7. RBAC (Role-Based Access Control) Expansion
+**Task ID**: 1211847452594665
+**ENG**: ENG-255
+**URL**: https://app.asana.com/0/1211254851871080/1211847452594665
+**Priority**: P2
 **Type**: feature
 **Assignee**: sj@cypherlab.tech
 **Labels**: Backend, user-service, Authorization
@@ -298,9 +316,12 @@ No role or permission system exists. All authenticated users have same access le
 
 ---
 
-### 7. [NEW] Fix Branding - Rename TAM to cypherlab (P3)
-**Proposed Priority**: P3 (Cosmetic but important for consistency)
-**Type**: documentation
+### 8. Branding Consistency (cypherlab references)
+**Task ID**: 1211847458484102
+**ENG**: ENG-256
+**URL**: https://app.asana.com/0/1211254851871080/1211847458484102
+**Priority**: P3
+**Type**: bug
 **Assignee**: sj@cypherlab.tech
 **Labels**: Backend, user-service, Documentation
 
@@ -342,13 +363,13 @@ README.md and other docs reference "TAM" instead of "cypherlab":
 tam-protos [COMPLETE]
     ↓
 user-service (ENG-90) [80% complete]
-    ├─ [NEW] Kafka Event Publishing (P0) [BLOCKS ALL]
-    │   ├─ [NEW] Email Verification (P1)
-    │   │   ├─ [NEW] Password Reset (P1)
-    │   │   └─ [NEW] 2FA (P1)
-    │   ├─ [NEW] Rate Limiting (P1)
-    │   └─ [NEW] RBAC (P2)
-    └─ [NEW] Branding Fixes (P3)
+    ├─ ENG-250: Kafka Event Publishing (P0) [BLOCKS ALL]
+    │   ├─ ENG-251: Email Verification (P1)
+    │   │   ├─ ENG-253: Password Reset (P1)
+    │   │   └─ ENG-252: 2FA (P1)
+    │   ├─ ENG-254: Rate Limiting (P1)
+    │   └─ ENG-255: RBAC (P2)
+    └─ ENG-256: Branding Fixes (P3)
     ↓
 wallet-service (ENG-86) [Blocked until user events published]
 notification-service (ENG-94) [Blocked until user events published]
