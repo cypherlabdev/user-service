@@ -35,7 +35,7 @@ mock: ## Generate mocks
 
 proto: ## Generate proto code from tam-protos
 	@echo "Proto generation handled by tam-protos repository"
-	@echo "Import github.com/tam/tam-protos/gen/go/user/v1 in your code"
+	@echo "Import github.com/tam/tam-protos/gen/go/proto/user/v1 in your code"
 
 lint: ## Run linters
 	golangci-lint run

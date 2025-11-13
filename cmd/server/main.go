@@ -27,7 +27,7 @@ import (
 	"github.com/cypherlabdev/user-service/internal/repository"
 	"github.com/cypherlabdev/user-service/internal/service"
 
-	userv1 "github.com/cypherlabdev/cypherlabdev-protos/gen/go/user/v1"
+	userv1 "github.com/cypherlabdev/tam-protos/gen/go/proto/user/v1"
 )
 
 func main() {
