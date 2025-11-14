@@ -3,18 +3,17 @@ package grpc
 import (
 	"context"
 
-	"github.com/google/uuid"
-	"github.com/rs/zerolog"
 	"github.com/cypherlabdev/user-service/internal/handler/grpc/interceptors"
 	"github.com/cypherlabdev/user-service/internal/models"
 	"github.com/cypherlabdev/user-service/internal/service"
+	"github.com/google/uuid"
+	"github.com/rs/zerolog"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/metadata"
 	"google.golang.org/grpc/peer"
 	"google.golang.org/grpc/status"
-	"google.golang.org/protobuf/types/known/timestamppb"
 
-	userv1 "github.com/cypherlabdev/cypherlabdev-protos/gen/go/user/v1"
+	userv1 "github.com/cypherlabdev/tam-protos/gen/go/proto/user/v1"
 )
 
 // AuthHandler implements the gRPC UserService
@@ -81,27 +80,27 @@ func (h *AuthHandler) Login(ctx context.Context, req *userv1.LoginRequest) (*use
 	return &userv1.LoginResponse{
 		Token: resp.SessionToken,
 		User: &userv1.User{
-			Id:    resp.User.ID.String(),
-			Email: resp.User.Email,
-			Name:  resp.User.Name,
-			CreatedAt: timestamppb.New(resp.User.CreatedAt),
-			UpdatedAt: timestamppb.New(resp.User.UpdatedAt),
+			Id:        resp.User.ID.String(),
+			Email:     resp.User.Email,
+			Name:      resp.User.Name,
+			CreatedAt: resp.User.CreatedAt.Format("2006-01-02T15:04:05Z07:00"),
+			UpdatedAt: resp.User.UpdatedAt.Format("2006-01-02T15:04:05Z07:00"),
 		},
 	}, nil
 }
 
 // ValidateSession validates a session and returns user information
 func (h *AuthHandler) ValidateSession(ctx context.Context, req *userv1.ValidateSessionRequest) (*userv1.ValidateSessionResponse, error) {
-	// Parse session ID
-	sessionID, err := uuid.Parse(req.SessionId)
+	// Parse session token
+	sessionID, err := uuid.Parse(req.Token)
 	if err != nil {
-		return nil, status.Error(codes.InvalidArgument, "invalid session ID format")
+		return nil, status.Error(codes.InvalidArgument, "invalid session token format")
 	}
 
 	// Call service
 	resp, err := h.authService.ValidateSession(ctx, sessionID)
 	if err != nil {
-		h.logger.Error().Err(err).Str("session_id", req.SessionId).Msg("failed to validate session")
+		h.logger.Error().Err(err).Str("session_id", req.Token).Msg("failed to validate session")
 		return nil, status.Error(codes.Internal, "internal server error")
 	}
 
@@ -111,13 +110,7 @@ func (h *AuthHandler) ValidateSession(ctx context.Context, req *userv1.ValidateS
 	}
 
 	if resp.Valid {
-		protoResp.User = &userv1.User{
-			Id:    resp.User.ID.String(),
-			Email: resp.User.Email,
-			Name:  resp.User.Name,
-			CreatedAt: timestamppb.New(resp.User.CreatedAt),
-			UpdatedAt: timestamppb.New(resp.User.UpdatedAt),
-		}
+		protoResp.UserId = resp.User.ID.String()
 	}
 
 	return protoResp, nil
@@ -133,10 +126,10 @@ func (h *AuthHandler) GetSession(ctx context.Context, req *userv1.GetSessionRequ
 
 	// Parse session ID from request (or use from auth context)
 	sessionID := authCtx.SessionID
-	if req.SessionId != "" {
-		sessionID, err = uuid.Parse(req.SessionId)
+	if req.Token != "" {
+		sessionID, err = uuid.Parse(req.Token)
 		if err != nil {
-			return nil, status.Error(codes.InvalidArgument, "invalid session ID format")
+			return nil, status.Error(codes.InvalidArgument, "invalid session token format")
 		}
 	}
 
@@ -154,25 +147,27 @@ func (h *AuthHandler) GetSession(ctx context.Context, req *userv1.GetSessionRequ
 
 	// Convert to proto response
 	return &userv1.GetSessionResponse{
-		SessionId: session.ID.String(),
-		UserId:    session.UserID.String(),
-		CreatedAt: timestamppb.New(session.CreatedAt),
-		ExpiresAt: timestamppb.New(session.ExpiresAt),
+		Session: &userv1.Session{
+			Id:        session.ID.String(),
+			UserId:    session.UserID.String(),
+			CreatedAt: session.CreatedAt.Format("2006-01-02T15:04:05Z07:00"),
+			ExpiresAt: session.ExpiresAt.Format("2006-01-02T15:04:05Z07:00"),
+		},
 	}, nil
 }
 
 // RefreshSession extends a session's TTL
 func (h *AuthHandler) RefreshSession(ctx context.Context, req *userv1.RefreshSessionRequest) (*userv1.RefreshSessionResponse, error) {
-	// Parse session ID
-	sessionID, err := uuid.Parse(req.SessionId)
+	// Parse session token
+	sessionID, err := uuid.Parse(req.Token)
 	if err != nil {
-		return nil, status.Error(codes.InvalidArgument, "invalid session ID format")
+		return nil, status.Error(codes.InvalidArgument, "invalid session token format")
 	}
 
 	// Call service
-	resp, err := h.authService.RefreshSession(ctx, sessionID)
+	_, err = h.authService.RefreshSession(ctx, sessionID)
 	if err != nil {
-		h.logger.Debug().Err(err).Str("session_id", req.SessionId).Msg("failed to refresh session")
+		h.logger.Debug().Err(err).Str("session_id", req.Token).Msg("failed to refresh session")
 
 		if err == models.ErrSessionNotFound {
 			return nil, status.Error(codes.NotFound, "session not found")
@@ -183,8 +178,7 @@ func (h *AuthHandler) RefreshSession(ctx context.Context, req *userv1.RefreshSes
 
 	// Convert to proto response
 	return &userv1.RefreshSessionResponse{
-		SessionId: resp.Session.ID.String(),
-		ExpiresAt: timestamppb.New(resp.Session.ExpiresAt),
+		Status: "refreshed",
 	}, nil
 }
 
@@ -196,10 +190,10 @@ func (h *AuthHandler) CreateSession(ctx context.Context, req *userv1.CreateSessi
 		return nil, status.Error(codes.InvalidArgument, "invalid user ID format")
 	}
 
-	// Convert metadata
-	metadata := req.Metadata
-	if metadata == nil {
-		metadata = make(map[string]string)
+	// Create metadata from IP and user agent
+	metadata := map[string]string{
+		"ip":         req.Ip,
+		"user_agent": req.UserAgent,
 	}
 
 	// Call service
@@ -216,8 +210,11 @@ func (h *AuthHandler) CreateSession(ctx context.Context, req *userv1.CreateSessi
 
 	// Convert to proto response
 	return &userv1.CreateSessionResponse{
-		SessionId: session.ID.String(),
-		UserId:    session.UserID.String(),
-		ExpiresAt: timestamppb.New(session.ExpiresAt),
+		Session: &userv1.Session{
+			Id:        session.ID.String(),
+			UserId:    session.UserID.String(),
+			CreatedAt: session.CreatedAt.Format("2006-01-02T15:04:05Z07:00"),
+			ExpiresAt: session.ExpiresAt.Format("2006-01-02T15:04:05Z07:00"),
+		},
 	}, nil
 }
